@@ -165,5 +165,24 @@
     }
   }
 
+  // ===== DARK MODE TOGGLE =====
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    // Check saved preference
+    const savedTheme = localStorage.getItem('wiki-dark-mode');
+    if (savedTheme === 'true') {
+      document.body.classList.add('dark-mode');
+      const icon = themeToggle.querySelector('.material-symbols-outlined');
+      if (icon) icon.textContent = 'light_mode';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.body.classList.toggle('dark-mode');
+      localStorage.setItem('wiki-dark-mode', isDark);
+      const icon = themeToggle.querySelector('.material-symbols-outlined');
+      if (icon) icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+    });
+  }
+
   WikiAnimations.init();
 })();
