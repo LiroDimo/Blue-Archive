@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clube de Exploração — Clube de Exploração</title>
+  <meta name="description" content="Em meio às tensões após o desastre do Tratado do Éden, a recém-fundada Academia da Esperança deveria ser um símbolo de paz. Em vez disso, seu primeiro dia de aula terminou em explosões, drones assassinos e uma conspiração burocrática.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&family=Poppins:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&family=Lato:wght@400;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/wiki.css?v=1775691346858">
+</head>
+<body class="player-mode">
+
+  <div id="app-shell">
+
+    <!-- ===== HEADER (Sem modo GM, sem config) ===== -->
+    <header id="app-header">
+      <div style="display:flex;align-items:center;gap:1rem">
+        <button id="menu-toggle" class="btn-icon" style="background:transparent;border:none;cursor:pointer;color:var(--on-surface-variant);display:none" title="Menu">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+        <a href="#/" style="text-decoration:none;display:flex;align-items:center;gap:0.75rem">
+          <div style="width:2rem;height:2rem;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--primary),var(--primary-container));display:flex;align-items:center;justify-content:center">
+            <span class="material-symbols-outlined" style="color:white;font-size:16px">shield</span>
+          </div>
+          <div>
+            <div class="font-headline" style="font-size:0.875rem;font-weight:800;letter-spacing:0.05em;color:var(--on-surface)" id="site-name">Clube de Exploração</div>
+            <div class="font-label" style="font-size:0.5625rem;color:var(--outline);text-transform:uppercase;letter-spacing:0.15em" id="site-subtitle">Clube de Exploração</div>
+          </div>
+        </a>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:0.75rem">
+        <div style="position:relative">
+          <span class="material-symbols-outlined" style="position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);font-size:16px;color:var(--outline)">search</span>
+          <input type="text" id="search-input" placeholder="Pesquisar arquivos..." class="form-input" style="padding-left:2.25rem;width:250px;height:2.25rem;font-size:0.8125rem">
+        </div>
+      </div>
+    </header>
+
+    <div id="app-body">
+      <!-- ===== SIDEBAR ===== -->
+      <aside id="sidebar">
+        <nav id="sidebar-nav">
+          <!-- Gerado dinamicamente -->
+        </nav>
+      </aside>
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <main id="app-content">
+        <!-- Gerado dinamicamente -->
+      </main>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer id="app-footer">
+      <div class="tech-line" style="max-width:600px"></div>
+      <div style="display:flex;align-items:center;gap:0.5rem">
+        <span class="material-symbols-outlined" style="font-size:14px;color:var(--primary)">terminal</span>
+        <span class="font-label" style="font-size:0.6875rem;color:var(--outline);text-transform:uppercase;letter-spacing:0.15em">TERMINAL DE ARQUIVO</span>
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center" id="footer-links">
+        
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.6875rem;color:var(--outline)">
+        <span class="material-symbols-outlined" style="font-size:12px">database</span>
+        Status do Banco: <span style="color:var(--primary);font-weight:600">Operacional</span>
+        <span style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block"></span>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- Scripts (versão estática) -->
+  <script src="js/data.js?v=1775691346859"></script>
+  <script src="js/auth.js?v=1775691346859"></script>
+  <script src="js/store.js?v=1775691346859"></script>
+  <script src="js/animations.js?v=1775691346859"></script>
+  <script src="js/editor.js?v=1775691346859"></script>
+  <script src="js/renderer.js?v=1775691346859"></script>
+  <script src="js/app.js?v=1775691346859"></script>
+
+</body>
+</html>

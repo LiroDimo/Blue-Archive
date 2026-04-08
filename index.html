@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arquivo Tático — Wiki</title>
+  <meta name="description" content="O arquivo wiki oficial da campanha de RPG. Documentando operações táticas de campo, laços entre personagens e mistérios.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+  <link rel="manifest" href="manifest.json">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#00629d">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700;800&family=Roboto:wght@400;500;700&family=Poppins:wght@400;500;600;700&family=Montserrat:wght@400;500;600;700&family=Open+Sans:wght@400;500;600;700&family=Lato:wght@400;700&family=Raleway:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/wiki.css">
+</head>
+<body class="player-mode">
+
+  <div id="app-shell">
+
+    <!-- ===== HEADER ===== -->
+    <header id="app-header">
+      <div style="display:flex;align-items:center;gap:1rem">
+        <button id="menu-toggle" class="btn-icon" style="background:transparent;border:none;cursor:pointer;color:var(--on-surface-variant);display:none" title="Menu">
+          <span class="material-symbols-outlined">menu</span>
+        </button>
+        <a href="#/" style="text-decoration:none;display:flex;align-items:center;gap:0.75rem">
+          <div style="width:2rem;height:2rem;border-radius:var(--radius-sm);background:linear-gradient(135deg,var(--primary),var(--primary-container));display:flex;align-items:center;justify-content:center">
+            <span class="material-symbols-outlined" style="color:white;font-size:16px">shield</span>
+          </div>
+          <div>
+            <div class="font-headline" style="font-size:0.875rem;font-weight:800;letter-spacing:0.05em;color:var(--on-surface)" id="site-name">CLUBE DE EXPLORAÇÃO</div>
+            <div class="font-label" style="font-size:0.5625rem;color:var(--outline);text-transform:uppercase;letter-spacing:0.15em" id="site-subtitle">Arquivo Tático</div>
+          </div>
+        </a>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:0.75rem">
+        <div style="position:relative">
+          <span class="material-symbols-outlined" style="position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);font-size:16px;color:var(--outline)">search</span>
+          <input type="text" id="search-input" placeholder="Pesquisar arquivos..." class="form-input" style="padding-left:2.25rem;width:250px;height:2.25rem;font-size:0.8125rem">
+        </div>
+        <div style="display:flex;align-items:center;gap:0.25rem;background:var(--surface-container-low);border-radius:var(--radius-sm);padding:0.125rem">
+          <button id="player-mode-btn" class="mode-btn player active" title="Modo Jogador">Jogador</button>
+          <button id="master-mode-btn" class="mode-btn master" title="Modo Mestre">Mestre</button>
+        </div>
+        <button id="config-btn" class="btn-icon" style="background:transparent;border:1px solid var(--outline-variant);cursor:pointer;color:var(--on-surface-variant);display:none" title="Configurações do Site">
+          <span class="material-symbols-outlined" style="font-size:18px; margin-left: 8px">settings</span>
+        </button>
+        <button id="theme-toggle" class="theme-toggle" title="Alternar Tema">
+          <span class="material-symbols-outlined" style="font-size:18px">dark_mode</span>
+        </button>
+      </div>
+    </header>
+
+    <div id="app-body">
+      <!-- ===== SIDEBAR ===== -->
+      <aside id="sidebar">
+        <nav id="sidebar-nav">
+          <!-- Gerado dinamicamente -->
+        </nav>
+      </aside>
+
+      <!-- ===== MAIN CONTENT ===== -->
+      <main id="app-content">
+        <!-- Gerado dinamicamente -->
+      </main>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer id="app-footer">
+      <div class="tech-line" style="max-width:600px"></div>
+      <div style="display:flex;align-items:center;gap:0.5rem">
+        <span class="material-symbols-outlined" style="font-size:14px;color:var(--primary)">terminal</span>
+        <span class="font-label" style="font-size:0.6875rem;color:var(--outline);text-transform:uppercase;letter-spacing:0.15em">TERMINAL DE ARQUIVO</span>
+      </div>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center" id="footer-links">
+        <a href="#" style="color:var(--outline);text-decoration:none;font-size:0.75rem">Protocolo Escolar</a>
+        <a href="#" style="color:var(--outline);text-decoration:none;font-size:0.75rem">Privacidade de Dados</a>
+        <a href="#" style="color:var(--outline);text-decoration:none;font-size:0.75rem">Termos de Serviço</a>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.6875rem;color:var(--outline)">
+        <span class="material-symbols-outlined" style="font-size:12px">database</span>
+        Status do Banco: <span style="color:var(--primary);font-weight:600">Operacional</span>
+        <span style="width:6px;height:6px;background:#22c55e;border-radius:50%;display:inline-block"></span>
+      </div>
+    </footer>
+
+    <!-- ===== GM TOOLBAR ===== -->
+    <div id="master-toolbar">
+      <div class="toolbar-info">
+        <span class="material-symbols-outlined" style="font-size:14px">shield</span>
+        <span>Modo GM Ativo</span>
+        <span style="opacity:0.5">|</span>
+        <span id="hidden-count">0 itens ocultos</span>
+      </div>
+      <div class="toolbar-actions">
+        <button class="btn btn-sm" id="export-btn" style="background:rgba(34,197,94,0.2);color:#22c55e;border:1px solid rgba(34,197,94,0.3)" title="Exportar versão estática para GitHub Pages">
+          <span class="material-symbols-outlined" style="font-size:14px">rocket_launch</span> Exportar para Deploy
+        </button>
+        <button class="btn btn-sm" id="reveal-all-btn" style="background:rgba(255,255,255,0.1);color:white;border:1px solid rgba(255,255,255,0.2)">
+          <span class="material-symbols-outlined" style="font-size:14px">visibility</span> Revelar Tudo
+        </button>
+        <button class="btn btn-sm" id="btn-backup" style="background:rgba(96,165,250,0.2);color:#60a5fa;border:1px solid rgba(96,165,250,0.3)" title="Baixar backup dos dados">
+          <span class="material-symbols-outlined" style="font-size:14px">download</span> Backup
+        </button>
+        <label class="btn btn-sm" style="background:rgba(251,191,36,0.2);color:#fbbf24;border:1px solid rgba(251,191,36,0.3);cursor:pointer" title="Restaurar backup">
+          <span class="material-symbols-outlined" style="font-size:14px">upload</span> Restaurar
+          <input type="file" id="restore-file-input" accept=".json" style="display:none">
+        </label>
+        <button class="btn btn-sm btn-danger" id="exit-gm-btn">
+          <span class="material-symbols-outlined" style="font-size:14px">logout</span> Sair do GM
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ===== LOGIN MODAL ===== -->
+  <div id="login-modal-backdrop" class="modal-backdrop">
+    <div class="modal login-modal" style="max-width:380px">
+      <div class="lock-icon">
+        <span class="material-symbols-outlined">lock</span>
+      </div>
+      <h2 class="font-headline" style="text-align:center;font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Acesso Mestre</h2>
+      <p style="text-align:center;color:var(--on-surface-variant);font-size:0.8125rem;margin-bottom:1.5rem">Insira as credenciais de GM...</p>
+      <form id="login-form">
+        <div class="form-group">
+          <input type="password" id="login-password" class="form-input" placeholder="Digite a senha..." autocomplete="off">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%">
+          <span class="material-symbols-outlined" style="font-size:16px">verified_user</span>
+          Autenticar
+        </button>
+        <div class="error-msg" id="login-error">Acesso negado. Credenciais inválidas.</div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ===== TOPIC MODAL ===== -->
+  <div id="topic-modal-backdrop" class="modal-backdrop">
+    <div class="modal" style="max-width:750px">
+      <div class="modal-header">
+        <h2 id="topic-modal-title">Novo Tópico</h2>
+        <button class="modal-close" data-dismiss><span class="material-symbols-outlined">close</span></button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Título</label>
+        <input type="text" id="topic-title-input" class="form-input" placeholder="Título do tópico...">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Categoria</label>
+        <select id="topic-category-select" class="form-select"></select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Ícone</label>
+        <div id="icon-picker-container"></div>
+        <input type="hidden" id="selected-icon-value" value="description">
+        <input type="hidden" id="topic-parent-id" value="">
+      </div>
+
+      <!-- ===== TAGS ===== -->
+      <div class="form-group">
+        <label class="form-label">Tags</label>
+        <div class="tag-input-container" style="position:relative">
+          <div id="topic-tags-list"></div>
+          <input type="text" id="topic-tag-input" placeholder="Digitar tag e Enter...">
+          <div class="tag-suggestions" id="tag-suggestions"></div>
+        </div>
+      </div>
+
+      <!-- ===== DATA DO EVENTO (TIMELINE) ===== -->
+      <div class="form-group">
+        <label class="form-label">Data do Evento (para Timeline)</label>
+        <input type="text" id="topic-event-date" class="form-input" placeholder="Ex: Ano 1042, Mês 3 — Opcional">
+      </div>
+
+      <!-- ===== TOGGLE: É UM PERSONAGEM? ===== -->
+      <div class="character-toggle-row">
+        <div class="character-toggle-label">
+          <span class="material-symbols-outlined">badge</span>
+          É um Personagem?
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="topic-is-character">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+
+      <!-- ===== FICHA DE PERSONAGEM ===== -->
+      <div id="character-meta-fields" style="display:none">
+        <div class="tech-line" style="margin:1rem 0"></div>
+        <h3 class="font-headline" style="font-size:1rem;font-weight:700;margin-bottom:1rem;display:flex;align-items:center;gap:0.5rem">
+          <span class="material-symbols-outlined" style="color:var(--primary)">badge</span>
+          Dossiê Tático
+        </h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+          <div class="form-group" style="grid-column:span 2">
+            <label class="form-label">Imagem do Retrato (URL)</label>
+            <div style="display:flex;gap:0.5rem">
+              <input type="text" id="meta-portrait-url" class="form-input" placeholder="https://... ou envie uma imagem">
+              <button type="button" id="upload-portrait-btn" class="btn btn-ghost btn-sm" title="Enviar Imagem">
+                <span class="material-symbols-outlined" style="font-size:16px">upload</span>
+              </button>
+            </div>
+          </div>
+          <div class="form-group" style="grid-column:span 2">
+            <label class="form-label">Imagem de Fundo (URL)</label>
+            <div style="display:flex;gap:0.5rem">
+              <input type="text" id="meta-bg-url" class="form-input" placeholder="https://... ou envie uma imagem de fundo">
+              <button type="button" id="upload-bg-btn" class="btn btn-ghost btn-sm" title="Enviar Imagem de Fundo">
+                <span class="material-symbols-outlined" style="font-size:16px">upload</span>
+              </button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Função</label>
+            <input type="text" id="meta-role" class="form-input" placeholder="Ex: Atacante, Suporte...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Escola / Afiliação</label>
+            <input type="text" id="meta-school" class="form-input" placeholder="Ex: Trinity, Gehenna...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Clube / Departamento</label>
+            <input type="text" id="meta-club" class="form-input" placeholder="Ex: Clube de Exploração...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Idade</label>
+            <input type="text" id="meta-age" class="form-input" placeholder="17">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Data de Nascimento</label>
+            <input type="text" id="meta-birthday" class="form-input" placeholder="12 de Março">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Arma</label>
+            <input type="text" id="meta-weapon" class="form-input" placeholder="Rifle de Assalto...">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Status</label>
+            <select id="meta-status" class="form-input">
+              <option value="">— Não definido —</option>
+              <option value="vivo">🟢 Vivo</option>
+              <option value="morto">🔴 Morto</option>
+              <option value="desconhecido">⚫ Desconhecido</option>
+            </select>
+          </div>
+          <div class="form-group" style="grid-column:span 2">
+            <label class="form-label">Segredos Classificados <span style="color:var(--error)">(Apenas GM)</span></label>
+            <textarea id="meta-secrets" class="form-input" rows="3" placeholder="Informações secretas que apenas o GM pode ver..."></textarea>
+          </div>
+        </div>
+
+        <h4 class="font-label" style="font-size:0.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--outline);margin:1rem 0 0.75rem">Matriz de Capacidade (0-100%)</h4>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem">
+          <div class="form-group">
+            <label class="form-label">ATK</label>
+            <input type="number" id="meta-stat-atk" class="form-input" min="0" max="100" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">DEF</label>
+            <input type="number" id="meta-stat-def" class="form-input" min="0" max="100" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">SUP</label>
+            <input type="number" id="meta-stat-sup" class="form-input" min="0" max="100" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label class="form-label">TCT</label>
+            <input type="number" id="meta-stat-tct" class="form-input" min="0" max="100" placeholder="0">
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== EDITOR DE TEXTO RICO ===== -->
+      <div class="form-group">
+        <label class="form-label">Conteúdo</label>
+        <div id="editor-toolbar" class="editor-toolbar">
+          <!-- Formatação básica -->
+          <button type="button" data-cmd="bold" title="Negrito (Ctrl+B)"><span class="material-symbols-outlined">format_bold</span></button>
+          <button type="button" data-cmd="italic" title="Itálico (Ctrl+I)"><span class="material-symbols-outlined">format_italic</span></button>
+          <button type="button" data-cmd="underline" title="Sublinhado (Ctrl+U)"><span class="material-symbols-outlined">format_underlined</span></button>
+          <button type="button" data-cmd="strikeThrough" title="Tachado"><span class="material-symbols-outlined">strikethrough_s</span></button>
+          <div class="sep"></div>
+
+          <!-- Títulos -->
+          <button type="button" data-cmd="h2" title="Título 2" style="font-weight:800;font-size:0.75rem">H2</button>
+          <button type="button" data-cmd="h3" title="Título 3" style="font-weight:700;font-size:0.6875rem">H3</button>
+          <div class="sep"></div>
+
+          <!-- Listas -->
+          <button type="button" data-cmd="insertUnorderedList" title="Lista com Marcadores"><span class="material-symbols-outlined">format_list_bulleted</span></button>
+          <button type="button" data-cmd="insertOrderedList" title="Lista Numerada"><span class="material-symbols-outlined">format_list_numbered</span></button>
+          <button type="button" data-cmd="blockquote" title="Citação"><span class="material-symbols-outlined">format_quote</span></button>
+          <div class="sep"></div>
+
+          <!-- Tamanho de Fonte -->
+          <span class="toolbar-label">Tamanho</span>
+          <select id="editor-font-size" title="Tamanho da fonte">
+            <option value="">—</option>
+            <option value="1">10px</option>
+            <option value="2">13px</option>
+            <option value="3">16px</option>
+            <option value="4">18px</option>
+            <option value="5">24px</option>
+            <option value="6">32px</option>
+            <option value="7">48px</option>
+          </select>
+          <div class="sep"></div>
+
+          <!-- Família de Fonte -->
+          <span class="toolbar-label">Fonte</span>
+          <select id="editor-font-family" title="Família de fonte">
+            <option value="">—</option>
+            <option value="Inter">Inter</option>
+            <option value="Space Grotesk">Space Grotesk</option>
+            <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Arial">Arial</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Times New Roman">Times New Roman</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Lato">Lato</option>
+            <option value="Raleway">Raleway</option>
+          </select>
+          <div class="sep"></div>
+
+          <!-- Cor do Texto -->
+          <span class="toolbar-label">Cor</span>
+          <input type="color" id="editor-text-color" value="#000000" title="Cor do Texto">
+          <input type="color" id="editor-bg-color" value="#ffffff" title="Cor de Fundo" style="margin-left:2px">
+          <div class="sep"></div>
+
+          <!-- Especiais -->
+          <button type="button" data-cmd="secret" title="Texto Secreto (Apenas GM)" style="color:var(--error)"><span class="material-symbols-outlined">visibility_off</span></button>
+          <button type="button" data-cmd="wikilink" title="Link Wiki (Ctrl+K)"><span class="material-symbols-outlined">link</span></button>
+          <button type="button" data-cmd="insertImage" title="Inserir Imagem"><span class="material-symbols-outlined">image</span></button>
+          <button type="button" data-cmd="insertHorizontalRule" title="Divisor"><span class="material-symbols-outlined">horizontal_rule</span></button>
+          <button type="button" data-cmd="removeFormat" title="Limpar Formatação"><span class="material-symbols-outlined">format_clear</span></button>
+        </div>
+        <div id="editor-content" class="editor-content" contenteditable="true"></div>
+        <input type="file" id="image-upload-input" accept="image/*" style="display:none">
+      </div>
+
+      <div style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem">
+        <button class="btn btn-ghost" id="topic-cancel-btn">Cancelar</button>
+        <button class="btn btn-primary" id="topic-save-btn">
+          <span class="material-symbols-outlined" style="font-size:16px">save</span> Salvar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== DELETE MODAL ===== -->
+  <div id="delete-modal-backdrop" class="modal-backdrop">
+    <div class="modal" style="max-width:400px;text-align:center">
+      <div style="width:3rem;height:3rem;margin:0 auto 1rem;border-radius:var(--radius-full);background:var(--error-container);display:flex;align-items:center;justify-content:center">
+        <span class="material-symbols-outlined" style="color:var(--error)">warning</span>
+      </div>
+      <h2 class="font-headline" style="font-size:1.25rem;font-weight:700;margin-bottom:0.75rem">Confirmar Exclusão</h2>
+      <p style="color:var(--on-surface-variant);margin-bottom:1.5rem">
+        Tem certeza que deseja excluir "<strong id="delete-item-name"></strong>"? Esta ação não pode ser desfeita.
+      </p>
+      <div style="display:flex;gap:0.75rem;justify-content:center">
+        <button class="btn btn-ghost" data-dismiss>Cancelar</button>
+        <button class="btn btn-danger" id="delete-confirm-btn">
+          <span class="material-symbols-outlined" style="font-size:16px">delete</span> Excluir
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CONFIG MODAL ===== -->
+  <div id="config-modal-backdrop" class="modal-backdrop">
+    <div class="modal" style="max-width:650px">
+      <div class="modal-header">
+        <h2>Configuração do Site</h2>
+        <button class="modal-close" data-dismiss><span class="material-symbols-outlined">close</span></button>
+      </div>
+
+      <div class="config-tabs">
+        <button class="config-tab active" onclick="switchConfigTab('general', event)">Geral</button>
+        <button class="config-tab" onclick="switchConfigTab('colors', event)">Cores</button>
+        <button class="config-tab" onclick="switchConfigTab('fonts', event)">Fontes</button>
+        <button class="config-tab" onclick="switchConfigTab('homepage', event)">Página Inicial</button>
+      </div>
+
+      <!-- TAB: Geral -->
+      <div id="cfg-tab-general" class="config-section active">
+        <div class="form-group">
+          <label class="form-label">Nome do Site</label>
+          <input type="text" id="cfg-site-name" class="form-input" placeholder="Ex: CLUBE DE EXPLORAÇÃO">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Subtítulo</label>
+          <input type="text" id="cfg-site-subtitle" class="form-input" placeholder="Ex: Arquivo Tático">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Descrição</label>
+          <textarea id="cfg-site-description" class="form-input" rows="3" placeholder="Descrição do site..."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nome da Organização</label>
+          <input type="text" id="cfg-org-name" class="form-input" placeholder="Ex: GSC">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nome Completo da Organização</label>
+          <input type="text" id="cfg-org-full" class="form-input" placeholder="Ex: ARQUIVO TÁTICO SCHALE">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Imagem do Hero (URL)</label>
+          <input type="text" id="cfg-hero-image" class="form-input" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Imagem do Mapa (URL)</label>
+          <input type="text" id="cfg-map-image" class="form-input" placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Imagem de Perfil Padrão (URL)</label>
+          <input type="text" id="cfg-profile-image" class="form-input" placeholder="https://...">
+        </div>
+      </div>
+
+      <!-- TAB: Cores -->
+      <div id="cfg-tab-colors" class="config-section">
+        <div class="color-row">
+          <label>Primária</label>
+          <input type="color" id="cfg-color-primary" value="#00629d">
+        </div>
+        <div class="color-row">
+          <label>Primária Container</label>
+          <input type="color" id="cfg-color-primary-container" value="#00a3ff">
+        </div>
+        <div class="color-row">
+          <label>Secundária</label>
+          <input type="color" id="cfg-color-secondary" value="#446278">
+        </div>
+        <div class="color-row">
+          <label>Terciária</label>
+          <input type="color" id="cfg-color-tertiary" value="#854d63">
+        </div>
+        <div class="color-row">
+          <label>Erro</label>
+          <input type="color" id="cfg-color-error" value="#ba1a1a">
+        </div>
+        <div class="color-row">
+          <label>Fundo (Surface)</label>
+          <input type="color" id="cfg-color-surface" value="#f6fafe">
+        </div>
+        <div class="color-row">
+          <label>Texto (On Surface)</label>
+          <input type="color" id="cfg-color-on-surface" value="#171c1f">
+        </div>
+      </div>
+
+      <!-- TAB: Fontes -->
+      <div id="cfg-tab-fonts" class="config-section">
+        <div class="form-group">
+          <label class="form-label">Fonte de Títulos</label>
+          <select id="cfg-font-headline" class="form-select">
+            <option value="Space Grotesk">Space Grotesk</option>
+            <option value="Inter">Inter</option>
+            <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Lato">Lato</option>
+            <option value="Raleway">Raleway</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fonte do Corpo</label>
+          <select id="cfg-font-body" class="form-select">
+            <option value="Inter">Inter</option>
+            <option value="Roboto">Roboto</option>
+            <option value="Plus Jakarta Sans">Plus Jakarta Sans</option>
+            <option value="Space Grotesk">Space Grotesk</option>
+            <option value="Poppins">Poppins</option>
+            <option value="Montserrat">Montserrat</option>
+            <option value="Open Sans">Open Sans</option>
+            <option value="Lato">Lato</option>
+            <option value="Raleway">Raleway</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- TAB: Página Inicial -->
+      <div id="cfg-tab-homepage" class="config-section">
+        <p style="font-size:0.8125rem;color:var(--on-surface-variant);margin-bottom:1rem">Escolha quais seções são exibidas na página inicial.</p>
+        <div class="toggle-row">
+          <label for="cfg-hp-hero">Hero Banner</label>
+          <label class="toggle-switch"><input type="checkbox" id="cfg-hp-hero" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <label for="cfg-hp-char">Personagem do Dia</label>
+          <label class="toggle-switch"><input type="checkbox" id="cfg-hp-char" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <label for="cfg-hp-domains">Domínios Estratégicos</label>
+          <label class="toggle-switch"><input type="checkbox" id="cfg-hp-domains" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <label for="cfg-hp-updates">Últimas Atualizações</label>
+          <label class="toggle-switch"><input type="checkbox" id="cfg-hp-updates" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <label for="cfg-hp-lore">Destaque de Lore</label>
+          <label class="toggle-switch"><input type="checkbox" id="cfg-hp-lore" checked><span class="toggle-slider"></span></label>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem">
+        <button class="btn btn-ghost" data-dismiss>Cancelar</button>
+        <button class="btn btn-primary" id="cfg-save-btn">
+          <span class="material-symbols-outlined" style="font-size:16px">save</span> Salvar Configurações
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== EXPORT MODAL ===== -->
+  <div id="export-modal-backdrop" class="modal-backdrop">
+    <div class="modal" style="max-width:500px;text-align:center">
+      <div id="export-loading" style="display:none">
+        <div style="width:3rem;height:3rem;margin:0 auto 1rem;border-radius:var(--radius-full);background:linear-gradient(135deg,var(--primary),var(--primary-container));display:flex;align-items:center;justify-content:center;animation:pulse 1.5s infinite">
+          <span class="material-symbols-outlined" style="color:white;animation:spin 1s linear infinite">sync</span>
+        </div>
+        <h2 class="font-headline" style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Exportando...</h2>
+        <p style="color:var(--on-surface-variant);font-size:0.875rem">Gerando versão estática do site...</p>
+      </div>
+      <div id="export-success" style="display:none">
+        <div style="width:3rem;height:3rem;margin:0 auto 1rem;border-radius:var(--radius-full);background:rgba(34,197,94,0.15);display:flex;align-items:center;justify-content:center">
+          <span class="material-symbols-outlined" style="color:#22c55e">rocket_launch</span>
+        </div>
+        <h2 class="font-headline" style="font-size:1.25rem;font-weight:700;margin-bottom:0.75rem">Exportação Concluída!</h2>
+        <div id="export-stats" style="text-align:left;background:var(--surface-container-low);border-radius:var(--radius-md);padding:1rem 1.25rem;margin-bottom:1rem">
+          <!-- Stats populados via JS -->
+        </div>
+        <div style="background:var(--surface-container-low);border-radius:var(--radius-md);padding:1rem 1.25rem;text-align:left;margin-bottom:1.5rem">
+          <h4 class="font-label" style="font-size:0.6875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--primary);margin-bottom:0.5rem">Próximos Passos</h4>
+          <ol style="font-size:0.8125rem;color:var(--on-surface-variant);padding-left:1.25rem;line-height:1.8;margin:0">
+            <li>Faça commit da pasta <code style="background:var(--surface-container);padding:0.15rem 0.35rem;border-radius:4px;font-size:0.75rem">docs/</code></li>
+            <li>No GitHub: Settings → Pages</li>
+            <li>Source: Deploy from branch → <code style="background:var(--surface-container);padding:0.15rem 0.35rem;border-radius:4px;font-size:0.75rem">/docs</code></li>
+          </ol>
+        </div>
+        <button class="btn btn-primary" onclick="document.getElementById('export-modal-backdrop').classList.remove('open')">
+          <span class="material-symbols-outlined" style="font-size:16px">check</span> Entendido
+        </button>
+      </div>
+      <div id="export-error" style="display:none">
+        <div style="width:3rem;height:3rem;margin:0 auto 1rem;border-radius:var(--radius-full);background:var(--error-container);display:flex;align-items:center;justify-content:center">
+          <span class="material-symbols-outlined" style="color:var(--error)">error</span>
+        </div>
+        <h2 class="font-headline" style="font-size:1.25rem;font-weight:700;margin-bottom:0.5rem">Erro na Exportação</h2>
+        <p id="export-error-msg" style="color:var(--on-surface-variant);font-size:0.875rem;margin-bottom:1.5rem"></p>
+        <button class="btn btn-ghost" onclick="document.getElementById('export-modal-backdrop').classList.remove('open')">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Config tab switching
+    function switchConfigTab(tabName, e) {
+      document.querySelectorAll('.config-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.config-section').forEach(s => s.classList.remove('active'));
+      document.getElementById('cfg-tab-' + tabName).classList.add('active');
+      if (e && e.target) e.target.classList.add('active');
+    }
+
+    // Show/hide config btn and menu toggle based on auth
+    document.addEventListener('DOMContentLoaded', () => {
+      function updateUI() {
+        const isMaster = document.body.classList.contains('master-mode');
+        document.getElementById('config-btn').style.display = isMaster ? 'flex' : 'none';
+        document.getElementById('player-mode-btn').classList.toggle('active', !isMaster);
+        document.getElementById('master-mode-btn').classList.toggle('active', isMaster);
+        // Mobile menu toggle
+        if (window.innerWidth <= 768) {
+          document.getElementById('menu-toggle').style.display = 'flex';
+        }
+      }
+      const observer = new MutationObserver(updateUI);
+      observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+      updateUI();
+      window.addEventListener('resize', updateUI);
+    });
+  </script>
+
+  <!-- Scripts -->
+  <script src="js/auth.js?v=2"></script>
+  <script src="js/store.js?v=2"></script>
+  <script src="js/animations.js?v=2"></script>
+  <script src="js/editor.js?v=2"></script>
+  <script src="js/renderer.js?v=2"></script>
+  <script src="js/app.js?v=2"></script>
+
+</body>
+</html>

@@ -1,0 +1,15 @@
+{
+  "name": "wiki-sistema-visual",
+  "version": "1.0.0",
+  "description": "Sistema de Wiki com edição visual completa em Português Brasileiro",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "export": "node export.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}

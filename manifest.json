@@ -1,0 +1,17 @@
+{
+  "name": "Wiki — Arquivo Tático",
+  "short_name": "Wiki",
+  "description": "Sistema de Wiki com edição visual completa em Português Brasileiro",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#00629d",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
