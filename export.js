@@ -140,6 +140,9 @@ function generateStaticHTML(config) {
           <span class="material-symbols-outlined" style="position:absolute;left:0.75rem;top:50%;transform:translateY(-50%);font-size:16px;color:var(--outline)">search</span>
           <input type="text" id="search-input" placeholder="Pesquisar arquivos..." class="form-input" style="padding-left:2.25rem;width:250px;height:2.25rem;font-size:0.8125rem">
         </div>
+        <button id="theme-toggle" class="theme-toggle" title="Alternar Tema">
+          <span class="material-symbols-outlined" style="font-size:18px">dark_mode</span>
+        </button>
       </div>
     </header>
 
@@ -256,7 +259,60 @@ window.WikiStore = (function () {
   function searchTopics(query) {
     if (!query || query.length < 2) return [];
     const q = query.toLowerCase();
-    return cachedTopics.filter(t => t.title.toLowerCase().includes(q) || (t.content || '').toLowerCase().includes(q));
+    return cachedTopics.filter(t => {
+      if (t.title.toLowerCase().includes(q)) return true;
+      const textContent = (t.content || '').replace(/<[^>]*>/g, '').toLowerCase();
+      return textContent.includes(q);
+    });
+  }
+
+  function getVisibleTopicsSorted(category) {
+    let topics = getVisibleTopics(category);
+    return topics.sort((a, b) => {
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
+      return (a.order || 0) - (b.order || 0);
+    });
+  }
+
+  function getTimelineTopics() {
+    return cachedTopics
+      .filter(t => t.eventDate && t.visible !== false)
+      .sort((a, b) => (a.eventDate || '').localeCompare(b.eventDate || ''));
+  }
+
+  function getAllTags() {
+    const tagSet = new Set();
+    cachedTopics.forEach(t => {
+      if (t.tags && Array.isArray(t.tags)) t.tags.forEach(tag => tagSet.add(tag));
+    });
+    return [...tagSet].sort();
+  }
+
+  function getTopicsByTag(tag) {
+    return cachedTopics.filter(t => t.tags && t.tags.includes(tag));
+  }
+
+  function searchTopicsAdvanced(query, filters = {}) {
+    let results = cachedTopics;
+    if (query && query.length >= 2) {
+      const q = query.toLowerCase();
+      results = results.filter(t => {
+        if (t.title.toLowerCase().includes(q)) return true;
+        const textContent = (t.content || '').replace(/<[^>]*>/g, '').toLowerCase();
+        return textContent.includes(q);
+      });
+    }
+    if (filters.category) results = results.filter(t => t.category === filters.category);
+    if (filters.type === 'character') results = results.filter(t => t.isCharacter === true);
+    else if (filters.type === 'normal') results = results.filter(t => !t.isCharacter);
+    if (filters.status) results = results.filter(t => t.metadata?.status === filters.status);
+    if (filters.tag) results = results.filter(t => t.tags && t.tags.includes(filters.tag));
+    if (filters.sort === 'az') results.sort((a, b) => a.title.localeCompare(b.title));
+    else if (filters.sort === 'za') results.sort((a, b) => b.title.localeCompare(a.title));
+    else if (filters.sort === 'newest') results.sort((a, b) => new Date(b.updatedAt || 0) - new Date(a.updatedAt || 0));
+    else if (filters.sort === 'oldest') results.sort((a, b) => new Date(a.updatedAt || 0) - new Date(b.updatedAt || 0));
+    return results;
   }
 
   function isVisible() { return true; }
@@ -279,7 +335,8 @@ window.WikiStore = (function () {
     fetchTopics, fetchCategories, fetchConfig, saveConfig, getConfig, getLabel,
     getCategories, createCategory, updateCategory, deleteCategory,
     getAllTopics, getTopicById, getTopicsByCategory, getSubtopics,
-    getVisibleTopics, getVisibleSubtopics, searchTopics,
+    getVisibleTopics, getVisibleSubtopics, getVisibleTopicsSorted, searchTopics,
+    searchTopicsAdvanced, getTopicsByTag, getAllTags, getTimelineTopics,
     createTopic, updateTopic, deleteTopic,
     isVisible, toggleVisibility, getHiddenCount, revealAll
   };
@@ -347,9 +404,20 @@ function generateStaticApp() {
       setActiveNav(parts[1]);
     } else if (parts[0] === 'topic' && parts[1]) {
       WikiRenderer.renderTopic(parts[1]);
+      setTimeout(() => setupGalleryLightbox(), 100);
+    } else if (parts[0] === 'timeline') {
+      WikiRenderer.renderTimeline();
+      setActiveNav('timeline');
     } else if (parts[0] === 'search') {
-      const query = decodeURIComponent(parts.slice(1).join('/'));
-      WikiRenderer.renderSearch(query);
+      const rawQuery = decodeURIComponent(parts.slice(1).join('/'));
+      if (rawQuery.startsWith('tag:')) {
+        const tag = rawQuery.substring(4);
+        WikiRenderer.setSearchState('', { tag });
+        WikiRenderer.renderSearchAdvanced('', { tag });
+      } else {
+        WikiRenderer.setSearchState(rawQuery, {});
+        WikiRenderer.renderSearchAdvanced(rawQuery, {});
+      }
     } else {
       WikiRenderer.renderHome();
       setActiveNav('home');
@@ -381,6 +449,15 @@ function generateStaticApp() {
           <span>\${WikiEditor.sanitize(cat.label)}</span>
         </a>\`;
     });
+
+    html += \`
+      <div style="margin-top:0.75rem;padding-top:0.75rem;border-top:1px solid var(--outline-variant)">
+        <a href="#/timeline" class="nav-link" data-nav="timeline">
+          <span class="material-symbols-outlined">schedule</span>
+          <span>Linha do Tempo</span>
+        </a>
+      </div>\`;
+
     nav.innerHTML = html;
     setActiveNav(window.location.hash.includes('/category/') ? window.location.hash.split('/category/')[1]?.split('/')[0] : 'home');
   }
@@ -479,6 +556,85 @@ function generateStaticApp() {
         }
       });
     }
+  }
+
+  // ===== DARK MODE TOGGLE =====
+  const themeToggle = document.getElementById('theme-toggle');
+  if (themeToggle) {
+    // Check saved preference
+    const savedTheme = localStorage.getItem('wiki-dark-mode');
+    if (savedTheme === 'true') {
+      document.body.classList.add('dark-mode');
+      const icon = themeToggle.querySelector('.material-symbols-outlined');
+      if (icon) icon.textContent = 'light_mode';
+    }
+
+    themeToggle.addEventListener('click', () => {
+      const isDark = document.body.classList.toggle('dark-mode');
+      localStorage.setItem('wiki-dark-mode', isDark);
+      const icon = themeToggle.querySelector('.material-symbols-outlined');
+      if (icon) icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+    });
+  }
+
+  // ===== GALLERY LIGHTBOX =====
+  function setupGalleryLightbox() {
+    const content = document.getElementById('app-content');
+    if (!content) return;
+    const topicContent = content.querySelector('.topic-content');
+    if (topicContent) {
+      const images = WikiRenderer.extractImages(topicContent.innerHTML);
+      if (images.length > 1) {
+        const galleryHTML = WikiRenderer.renderGallery(images);
+        if (galleryHTML) topicContent.insertAdjacentHTML('afterend', galleryHTML);
+      }
+    }
+    content.addEventListener('click', (e) => {
+      const thumb = e.target.closest('.gallery-thumb');
+      if (thumb) {
+        const imgs = content.querySelectorAll('.gallery-thumb img');
+        const srcs = [...imgs].map(img => img.src);
+        const idx = parseInt(thumb.dataset.galleryIdx) || 0;
+        openLightbox(srcs, idx);
+      }
+    });
+  }
+
+  function openLightbox(images, startIdx) {
+    let current = startIdx;
+    const backdrop = document.createElement('div');
+    backdrop.className = 'lightbox-backdrop';
+    backdrop.innerHTML = \`
+      <button class="lightbox-close"><span class="material-symbols-outlined">close</span></button>
+      \${images.length > 1 ? '<button class="lightbox-nav prev"><span class="material-symbols-outlined">chevron_left</span></button>' : ''}
+      <img src="\${images[current]}" alt="Lightbox">
+      \${images.length > 1 ? '<button class="lightbox-nav next"><span class="material-symbols-outlined">chevron_right</span></button>' : ''}
+      \${images.length > 1 ? \`<div class="lightbox-counter">\${current + 1} / \${images.length}</div>\` : ''}
+    \`;
+    document.body.appendChild(backdrop);
+    setTimeout(() => backdrop.classList.add('open'), 10);
+
+    const updateImage = () => {
+      backdrop.querySelector('img').src = images[current];
+      const counter = backdrop.querySelector('.lightbox-counter');
+      if (counter) counter.textContent = \`\${current + 1} / \${images.length}\`;
+    };
+
+    backdrop.querySelector('.lightbox-close').addEventListener('click', () => {
+      backdrop.classList.remove('open');
+      setTimeout(() => backdrop.remove(), 300);
+    });
+    backdrop.addEventListener('click', (e) => { if (e.target === backdrop) { backdrop.classList.remove('open'); setTimeout(() => backdrop.remove(), 300); } });
+    const prev = backdrop.querySelector('.lightbox-nav.prev');
+    const next = backdrop.querySelector('.lightbox-nav.next');
+    if (prev) prev.addEventListener('click', () => { current = (current - 1 + images.length) % images.length; updateImage(); });
+    if (next) next.addEventListener('click', () => { current = (current + 1) % images.length; updateImage(); });
+
+    document.addEventListener('keydown', function handler(e) {
+      if (e.key === 'Escape') { backdrop.classList.remove('open'); setTimeout(() => backdrop.remove(), 300); document.removeEventListener('keydown', handler); }
+      if (e.key === 'ArrowLeft' && prev) { current = (current - 1 + images.length) % images.length; updateImage(); }
+      if (e.key === 'ArrowRight' && next) { current = (current + 1) % images.length; updateImage(); }
+    });
   }
 
   WikiAnimations.init();
